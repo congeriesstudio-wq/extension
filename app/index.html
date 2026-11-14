@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Universal Page AI</title>
+<meta name="theme-color" content="#2f6fed">
+<meta name="description" content="Ask about any page, summarize it, and draft text to paste back. Uses your own xKiro key.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="stylesheet" href="../src/panel.css">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand"><img src="icon-192.png" alt="" width="22" height="22">Universal Page AI</div>
+  <div class="top-actions">
+    <button id="installBtn" class="ghost" type="button" hidden>Install app</button>
+    <button id="newChat" class="ghost" type="button">New chat</button>
+    <button id="settingsBtn" class="ghost" type="button" aria-expanded="false">Settings</button>
+  </div>
+</header>
+<div id="banner" class="banner" hidden></div>
+
+<main id="chatView" class="view">
+  <section class="pagebox" aria-labelledby="pageHead">
+    <div class="pagehead">
+      <h2 id="pageHead">Page</h2>
+      <span id="pageInfo" class="muted small">Share a page here from Chrome, or paste a link or text.</span>
+    </div>
+    <div class="row">
+      <label for="pageUrl" class="sr">Page link</label>
+      <input id="pageUrl" type="url" inputmode="url" placeholder="https://… (optional)">
+      <button id="readUrl" type="button">Read link</button>
+    </div>
+    <label for="pageText" class="sr">Page text</label>
+    <textarea id="pageText" rows="3" placeholder="Paste the page text or the part you need help with (optional)"></textarea>
+    <div id="pageMsg" class="msg" hidden></div>
+  </section>
+
+  <div id="log" class="log" aria-live="polite">
+    <section id="empty" class="empty">
+      <h1>Ask about any page</h1>
+      <p>On any website, press Chrome's <b>Share</b> button and choose <b>Universal Page AI</b>, or paste the page above. Then ask a question or ask it to write something you can copy back.</p>
+      <div class="chips">
+        <button type="button" class="chip" data-prompt="Summarize this page in a few bullet points.">Summarize</button>
+        <button type="button" class="chip" data-prompt="What does this page want me to do? Go through it step by step.">What do I need to do?</button>
+        <button type="button" class="chip" data-prompt="Draft a reply I can paste.">Draft a reply</button>
+        <button type="button" class="chip" data-prompt="Rewrite the text above to be clearer and more natural, same meaning.">Improve this text</button>
+      </div>
+    </section>
+  </div>
+
+  <form id="composer" class="composer">
+    <label for="q" class="sr">Your question or request</label>
+    <textarea id="q" rows="2" placeholder="Ask about the page, or tell it what to write…"></textarea>
+    <div class="composer-row">
+      <span class="hint">Enter to send · Shift+Enter for a new line</span>
+      <button id="send" type="submit" class="primary">Send</button>
+    </div>
+  </form>
+</main>
+
+<main id="settingsView" class="view settings" hidden>
+  <section class="group">
+    <h2>xKiro API key</h2>
+    <p id="keyState" class="muted"></p>
+    <label for="apiKey" class="sr">API key</label>
+    <input id="apiKey" type="password" autocomplete="off" spellcheck="false" placeholder="Paste your xKiro API key">
+    <div class="row">
+      <button id="saveKey" type="button" class="primary">Save key</button>
+      <button id="testKey" type="button">Test connection</button>
+      <button id="clearKey" type="button" class="ghost danger">Remove key</button>
+    </div>
+    <div id="keyMsg" class="msg" hidden></div>
+    <p class="muted small">Saved only in this browser on this device, and only ever sent to api.xkiro.com.</p>
+  </section>
+  <section class="group">
+    <h2>Models</h2>
+    <label class="check"><input type="checkbox" id="freeOnly"> Free models only</label>
+    <label class="check"><input type="checkbox" id="allowPaid"> Allow paid models (may use credits)</label>
+    <div id="paidConfirm" class="msg warn" hidden>Paid models may use your xKiro credits. Free models are still tried first.
+      <div class="row"><button id="paidYes" type="button" class="primary">Allow paid models</button><button id="paidNo" type="button" class="ghost">Cancel</button></div>
+    </div>
+  </section>
+  <section class="group">
+    <h2>Facts about you</h2>
+    <p class="muted small">Used only when writing as you. Personal details are never guessed.</p>
+    <label for="facts" class="sr">Facts about you</label>
+    <textarea id="facts" rows="5" placeholder="Name, school or job, short bio…"></textarea>
+    <div class="row"><button id="saveFacts" type="button" class="primary">Save facts</button></div>
+    <div id="factsMsg" class="msg" hidden></div>
+  </section>
+  <section class="group">
+    <h2>About</h2>
+    <ul class="muted small notes">
+      <li>This app can't see or type into other websites. Share or paste a page in, then copy results back.</li>
+      <li>For reading and filling pages directly, use the Universal Page AI browser extension.</li>
+      <li>Text inside shared pages that tries to instruct the AI is treated as plain text and ignored.</li>
+    </ul>
+    <p id="version" class="muted small"></p>
+  </section>
+</main>
+
+<script src="../src/lib/core.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
