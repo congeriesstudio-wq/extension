@@ -1,0 +1,4 @@
+node_modules/
+dist/
+tests/panel.png
+.DS_Store
