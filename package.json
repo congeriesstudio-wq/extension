@@ -1,0 +1,11 @@
+{
+  "name": "universal-page-ai",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Cross-browser AI assistant for any web page (xKiro).",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node --test tests/core.test.mjs",
+    "e2e": "node tests/e2e.mjs"
+  }
+}
