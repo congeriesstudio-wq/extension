@@ -12,6 +12,18 @@ Works in **Chrome, Edge, Brave, Opera, Vivaldi** (one build) and **Firefox** (it
 - **Right-click menu:** "Ask Universal Page AI about '…'", "Write here with Universal Page AI".
 - **Shortcut:** Ctrl+Shift+Y (Cmd+Shift+Y on Mac) opens the panel.
 
+## Installable app (for Chromebooks that block extensions)
+
+If you can't turn on Developer mode, use the web-app version instead. It installs like a normal Chromebook app:
+
+1. Open **https://congeriesstudio-wq.github.io/extension/app/** in Chrome.
+2. Click **Install** (in the address bar, or the **Install app** button in the page).
+3. Open it from the launcher, go to **Settings** and paste your xKiro key.
+
+To use it on a page, press Chrome's **Share** button on any website and pick **Universal Page AI**, or paste a link or the page text into the Page box. Ask questions, and copy the drafted text back with the **Copy** buttons.
+
+Web apps can't see or type into other websites, so this version can't fill forms for you. That needs the extension. It also calls xKiro directly from the browser, so it only works if xKiro accepts requests from web pages. If it doesn't, **Test connection** in Settings will say so.
+
 ## Speed
 
 - **Streaming:** answers appear word by word as the model writes them, so the first words show up in about a second.
@@ -47,6 +59,7 @@ Click the toolbar icon to open the panel → **Settings** → paste your xKiro k
 ```bash
 npm test               # unit tests for the shared core (routing, safety checks, parsing)
 npm run build && npm run e2e   # loads the real extension in Chromium against a mock xKiro and a test form
+node tests/app-e2e.mjs         # the installable web app: install manifest, Share, streaming, Copy, errors
 ```
 
 The end-to-end test (26 checks) covers streaming, fast/strong model choice, Stop, answering from page content, the free-model choice, prompt-injection warnings, the password field never leaving the page, filling inputs, dropdowns, textareas, rich editors and framework-controlled inputs, undo, and protected browser pages.
@@ -60,6 +73,7 @@ The end-to-end test (26 checks) covers streaming, fast/strong model choice, Stop
 | `src/content.js` | Injected on demand: reads text/selection/fields, applies approved text like typing |
 | `src/panel.*` | Side panel (Chromium) / sidebar (Firefox) UI |
 | `scripts/build.mjs` | Builds per-browser manifests and zips |
+| `app/` | Installable web app (PWA) for Chromebooks; reuses `src/lib/core.js` |
 
 ## Publishing
 
