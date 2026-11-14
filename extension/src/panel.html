@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Universal Page AI</title>
+  <link rel="stylesheet" href="panel.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand"><span class="mark" aria-hidden="true"></span>Universal Page AI</div>
+    <div class="top-actions">
+      <button id="newChat" class="ghost" type="button" title="Start a new conversation">New chat</button>
+      <button id="settingsBtn" class="ghost" type="button" aria-expanded="false">Settings</button>
+    </div>
+  </header>
+
+  <div id="banner" class="banner" hidden></div>
+
+  <!-- ============ CHAT ============ -->
+  <main id="chatView" class="view">
+    <div id="pageLine" class="pageline" hidden></div>
+    <div id="log" class="log" aria-live="polite">
+      <section id="empty" class="empty">
+        <h1>Ask anything about this page</h1>
+        <p>It reads the page you have open, answers questions about it, and writes into text boxes when you ask. Nothing on the page changes until you press Apply.</p>
+        <div class="chips">
+          <button type="button" class="chip" data-prompt="Summarize this page in a few bullet points.">Summarize this page</button>
+          <button type="button" class="chip" data-prompt="What does this page want me to do or fill in? Go through it step by step.">What do I need to do here?</button>
+          <button type="button" class="chip" data-prompt="Improve the text I selected: clearer and more natural, same meaning.">Improve my selected text</button>
+          <button type="button" class="chip" data-prompt="Draft a reply I can put in the text box on this page.">Draft a reply</button>
+          <button type="button" class="chip" data-prompt="Fill in the form fields on this page using my saved facts. Ask me for anything you don't know.">Fill in this form</button>
+        </div>
+      </section>
+    </div>
+    <form id="composer" class="composer">
+      <label for="q" class="sr">Your question or request</label>
+      <textarea id="q" rows="2" placeholder="Ask about this page, or tell it what to write…"></textarea>
+      <div class="composer-row">
+        <span class="hint">Enter to send · Shift+Enter for a new line</span>
+        <button id="send" type="submit" class="primary">Send</button>
+      </div>
+    </form>
+  </main>
+
+  <!-- ============ SETTINGS ============ -->
+  <main id="settingsView" class="view settings" hidden>
+    <section class="group">
+      <h2>xKiro API key</h2>
+      <p id="keyState" class="muted"></p>
+      <label for="apiKey" class="sr">API key</label>
+      <input id="apiKey" type="password" autocomplete="off" spellcheck="false" placeholder="Paste your xKiro API key">
+      <div class="row">
+        <button id="saveKey" type="button" class="primary">Save key</button>
+        <button id="testKey" type="button">Test connection</button>
+        <button id="clearKey" type="button" class="ghost danger">Remove key</button>
+      </div>
+      <div id="keyMsg" class="msg" hidden></div>
+      <p class="muted small">The key is saved only in this browser's extension storage. Web pages cannot read it, and it is only ever sent to api.xkiro.com.</p>
+    </section>
+
+    <section class="group">
+      <h2>Models</h2>
+      <label class="check"><input type="checkbox" id="freeOnly"> Free models only</label>
+      <label class="check"><input type="checkbox" id="allowPaid"> Allow paid models (may use credits)</label>
+      <div id="paidConfirm" class="msg warn" hidden>
+        Paid models may use your xKiro credits. Free models are still tried first.
+        <div class="row"><button id="paidYes" type="button" class="primary">Allow paid models</button><button id="paidNo" type="button" class="ghost">Cancel</button></div>
+      </div>
+      <label for="modelMode">Model selection</label>
+      <select id="modelMode"><option value="auto">Automatic (recommended)</option><option value="manual">Choose a model myself</option></select>
+      <div id="manualWrap" hidden>
+        <label for="manualModel">Model</label>
+        <select id="manualModel"></select>
+      </div>
+      <div class="row"><button id="refreshModels" type="button">Refresh models</button></div>
+      <div id="models" class="models"></div>
+    </section>
+
+    <section class="group">
+      <h2>Facts about you</h2>
+      <p class="muted small">Used only to fill forms and write as you. Personal details are never guessed: anything not written here is asked for.</p>
+      <label for="facts" class="sr">Facts about you</label>
+      <textarea id="facts" rows="6" placeholder="Name, email, phone, address, school or job, short bio…"></textarea>
+      <div class="row"><button id="saveFacts" type="button" class="primary">Save facts</button></div>
+      <div id="factsMsg" class="msg" hidden></div>
+    </section>
+
+    <section class="group">
+      <h2>Privacy</h2>
+      <ul class="muted small notes">
+        <li>The page is read only when you send a message, and only the page in this window's current tab.</li>
+        <li>Password, card-number and hidden fields are never read or filled.</li>
+        <li>It never clicks, submits, buys or sends anything. You press Apply for each change.</li>
+        <li>Instructions hidden in web pages are treated as plain text and ignored.</li>
+      </ul>
+      <p id="version" class="muted small"></p>
+    </section>
+  </main>
+
+  <script src="lib/core.js"></script>
+  <script src="panel.js"></script>
+</body>
+</html>
