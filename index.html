@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Universal Page AI</title>
+<meta name="description" content="Set up Universal Page AI: an AI helper for any web page, using your own xKiro key.">
+<link rel="icon" href="app/icon-192.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600&family=JetBrains+Mono:wght@400&display=swap">
+<style>
+/* Layout: one narrow column: the file to copy, then numbered deploy steps (a real sequence). */
+:root{
+  --bg:#f6f7f9; --surface:#ffffff; --fg:#1b2230; --muted:#5d6676; --line:#dde1e8;
+  --accent:#1a66d9; --accent-fg:#ffffff; --ok:#167a3e; --okbg:#e5f4ea; --warnbg:#fdf1dc; --warn:#8a5300; --code:#eef1f5;
+  --display:'Space Grotesk',ui-sans-serif,system-ui,sans-serif;
+  --body:'Inter',ui-sans-serif,system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#12161d; --surface:#1a2029; --fg:#e6e9ef; --muted:#9aa3b2; --line:#2c3440;
+  --accent:#5b9bff; --accent-fg:#0d1420; --ok:#5fd18b; --okbg:#173325; --warnbg:#352812; --warn:#f0b45a; --code:#141920; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12161d; --surface:#1a2029; --fg:#e6e9ef; --muted:#9aa3b2; --line:#2c3440;
+  --accent:#5b9bff; --accent-fg:#0d1420; --ok:#5fd18b; --okbg:#173325; --warnbg:#352812; --warn:#f0b45a; --code:#141920; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font:15px/1.55 var(--body)}
+.wrap{max-width:720px;margin:0 auto;padding-block:32px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:20px}
+h1{font:600 28px/1.15 var(--display);margin:0;text-wrap:balance}
+.lede{margin:6px 0 0;color:var(--muted);max-width:62ch}
+.file{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.head{display:flex;flex-wrap:wrap;align-items:center;gap:12px;justify-content:space-between}
+.name{font:500 16px var(--mono)}
+.meta{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+button{font:600 14px var(--body);border-radius:8px;border:1px solid var(--accent);background:var(--accent);color:var(--accent-fg);padding:10px 16px;cursor:pointer;min-width:150px}
+button:focus-visible,summary:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button:disabled{opacity:.55;cursor:default}
+button.done{background:var(--okbg);color:var(--ok);border-color:var(--ok)}
+details summary{cursor:pointer;color:var(--muted);font-size:13px}
+textarea{width:100%;box-sizing:border-box;height:220px;margin-top:8px;font:12px/1.5 var(--mono);background:var(--code);color:var(--fg);border:1px solid var(--line);border-radius:8px;padding:10px;resize:vertical;white-space:pre;overflow:auto}
+.status{font-size:13px;color:var(--muted);min-height:1.2em}
+h2{font:600 18px var(--display);margin:8px 0 0}
+ol{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:10px;max-width:65ch}
+code{font:13px var(--mono);background:var(--code);padding:1px 5px;border-radius:4px}
+.note{font-size:14px;margin:0;padding:10px 12px;border-radius:8px;background:var(--warnbg);color:var(--warn)}
+.small{font-size:13px;color:var(--muted);margin:0}
+.links{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px;max-width:65ch}
+a{color:var(--accent)}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <h1>Universal Page AI</h1>
+    <p class="lede">An AI helper for any web page, using your own xKiro key. On a school Chromebook, set it up as an Apps Script web app in your Google account: one file to paste, about two minutes. No key is included; you add yours in the app's Settings.</p>
+  </header>
+
+  <section class="file" aria-labelledby="f1">
+    <div class="head">
+      <div><div class="name" id="f1">Code.gs</div><div class="meta" id="codeMeta">Loading…</div></div>
+      <button type="button" id="copyCode" disabled>Copy Code.gs</button>
+    </div>
+    <div class="status" id="copyCode-status" role="status"></div>
+    <details><summary>Show the code</summary><textarea id="code-view" readonly spellcheck="false" aria-label="Code.gs contents"></textarea></details>
+  </section>
+
+  <h2>Set it up (about 2 minutes)</h2>
+  <ol>
+    <li>Go to <b>script.google.com</b>, signed in with the account you'll use it on, and click <b>New project</b>.</li>
+    <li>Click the title <b>Untitled project</b> and rename it <code>Universal Page AI</code>.</li>
+    <li>In <code>Code.gs</code>, select everything (<b>Ctrl+A</b>), delete it, and paste the copied code (<b>Ctrl+V</b>). Press <b>Ctrl+S</b> to save.</li>
+    <li>Click <b>Deploy → New deployment</b>. Click the gear next to "Select type" and choose <b>Web app</b>.</li>
+    <li>Set <b>Execute as: Me</b> and <b>Who has access: Only myself</b>, then click <b>Deploy</b>.</li>
+    <li>Click <b>Authorize access</b>, pick your account and click <b>Allow</b>. It asks to connect to external services (needed to reach xKiro and read links). If you see "Google hasn't verified this app", click <b>Advanced → Go to Universal Page AI</b>. That's normal for your own scripts.</li>
+    <li>Copy the <b>Web app URL</b> (it ends in <code>/exec</code>) and open it. Go to <b>Settings</b>, paste your xKiro key and press <b>Test connection</b>.</li>
+  </ol>
+  <p class="note">If step 5 or 6 shows an error about your organization or domain, your school has blocked Apps Script web apps, and this version won't run on that account.</p>
+  <p class="small">Want it in its own window like an app? With the web app open in Chrome: <b>⋮ → Cast, save and share → Create shortcut…</b>, tick <b>Open as window</b>, then <b>Create</b>.</p>
+  <p class="small">Updating later: paste the new code, then <b>Deploy → Manage deployments → ✏ Edit → Version: New version → Deploy</b>. The link stays the same.</p>
+
+  <h2>Other versions</h2>
+  <ul class="links">
+    <li><a href="https://github.com/congeriesstudio-wq/extension/releases/latest"><b>Browser extension</b></a>: reads and fills in any page. Needs Developer mode (Chrome, Edge, Brave, Opera) or Firefox.</li>
+    <li><a href="app/"><b>Installable app</b></a>: works with Chrome's Share button, but xKiro currently blocks it, so use the web app above instead.</li>
+    <li><a href="https://github.com/congeriesstudio-wq/extension"><b>Source code</b></a> on GitHub.</li>
+  </ul>
+</div>
+
+<script>
+(function(){
+  var view = document.getElementById('code-view'), btn = document.getElementById('copyCode'), status = document.getElementById('copyCode-status'), meta = document.getElementById('codeMeta');
+  var code = '';
+  fetch('webapp/Code.gs', { cache: 'no-cache' }).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); }).then(function (t) {
+    code = t; view.value = t; btn.disabled = false;
+    var v = (t.match(/version ([0-9.]+)/) || [])[1];
+    meta.textContent = t.split('\n').length.toLocaleString() + ' lines · ' + Math.round(new Blob([t]).size / 1024) + ' KB' + (v ? ' · v' + v : '');
+  }).catch(function () { meta.textContent = 'Could not load the code.'; status.innerHTML = 'Open <a href="webapp/Code.gs">webapp/Code.gs</a> and copy it from there.'; });
+  function done(){ btn.textContent = 'Copied'; btn.classList.add('done'); status.textContent = 'Copied to your clipboard. Paste it into Code.gs in Apps Script.'; setTimeout(function(){ btn.textContent = 'Copy Code.gs'; btn.classList.remove('done'); }, 2500); }
+  function fallback(){ view.closest('details').open = true; view.focus(); view.select(); var ok = false; try { ok = document.execCommand('copy'); } catch (e) { ok = false; } if (ok) done(); else status.textContent = 'Your browser blocked copying. The code is selected below: press Ctrl+C.'; }
+  btn.addEventListener('click', function(){ if (!code) return; if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(code).then(done, fallback); else fallback(); });
+})();
+</script>
+</body>
+</html>
